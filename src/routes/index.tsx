@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import {
   ArrowRight,
@@ -67,43 +68,103 @@ const characterSlots = [
     role: "Female Character",
     mood: "静かな鋭さと、先に安心を置くタイプ",
     alt: "女性キャラクター画像を後から挿入するためのプレースホルダー",
+    src: "/male.png",
+    className: "character-left",
+    layout: {
+      "--hero-figure-top": "-18%",
+      "--hero-figure-width": "42%",
+      "--hero-figure-image-shift-y": "-4%",
+      "--hero-figure-shift-x": "-9%",
+    } as CSSProperties,
   },
   {
     id: "02",
     role: "Male Character",
     mood: "落ち着いた観察で、距離感を整えるタイプ",
     alt: "男性キャラクター画像を後から挿入するためのプレースホルダー",
+    src: "/female.png",
+    className: "character-right",
+    layout: {
+      "--hero-figure-top": "-18%",
+      "--hero-figure-width": "42%",
+      "--hero-figure-image-shift-y": "-4%",
+    } as CSSProperties,
   },
 ]
+
+const sectionLayouts = {
+  shell: {
+    "--lp-shell-width": "430px",
+  } as CSSProperties,
+  hero: {
+    "--section-pad-top": "0rem",
+    "--section-pad-bottom": "2rem",
+  } as CSSProperties,
+  value: {
+    "--section-pad-top": "4.5rem",
+    "--section-pad-bottom": "4rem",
+  } as CSSProperties,
+  trust: {
+    "--section-pad-top": "4.5rem",
+    "--section-pad-bottom": "4rem",
+  } as CSSProperties,
+  scene: {
+    "--section-pad-top": "4.5rem",
+    "--section-pad-bottom": "4rem",
+  } as CSSProperties,
+  closing: {
+    "--section-pad-top": "4.5rem",
+    "--section-pad-bottom": "min(14vh, 7rem)",
+  } as CSSProperties,
+} as const
+
+const heroLayout = {
+  stage: {
+    "--hero-stage-min-height": "128vw",
+  } as CSSProperties,
+  copy: {
+    "--hero-copy-width": "100%",
+    "--hero-copy-max-width": "100%",
+    "--hero-copy-shift-x": "0%",
+    "--hero-copy-shift-y": "18%",
+  } as CSSProperties,
+  detail: {
+    "--hero-detail-gap": "1.35rem",
+    "--hero-detail-shift-y": "0rem",
+  } as CSSProperties,
+} as const
 
 export const Route = createFileRoute("/")({ component: LandingPage })
 
 function LandingPage() {
   return (
-    <main className="lp-shell">
-      <section className="hero-panel">
+    <main className="lp-shell" style={sectionLayouts.shell}>
+      <section className="hero-panel" style={sectionLayouts.hero}>
         <div className="hero-grid">
-          <div className="hero-stage" id="characters">
-            <figure className="character-placeholder character-left">
+          <div className="hero-stage" id="characters" style={heroLayout.stage}>
+            {characterSlots.map((character) => (
+              <figure
+                key={character.id}
+                className={`character-placeholder hero-figure ${character.className}`}
+                style={character.layout}
+              >
               <div className="character-meta">
-                <span>{characterSlots[0].id}</span>
-                <p>{characterSlots[0].role}</p>
+                  <span>{character.id}</span>
+                  <p>{character.role}</p>
               </div>
               <img
                 className="character-img"
-                src="/male.png"
-                alt={characterSlots[0].alt}
+                  src={character.src}
+                  alt={character.alt}
               />
               <figcaption>
-                <strong>{characterSlots[0].role}</strong>
-                <p>{characterSlots[0].mood}</p>
+                  <strong>{character.role}</strong>
+                  <p>{character.mood}</p>
               </figcaption>
-            </figure>
+              </figure>
+            ))}
 
-            <div className="hero-copy">
-              <p className="eyebrow">
-                RELATIONSHIP COMPANION / ENTERTAINMENT FIRST
-              </p>
+            <div className="hero-copy" style={heroLayout.copy}>
               <div
                 className="hero-vertical-title"
                 role="heading"
@@ -125,25 +186,9 @@ function LandingPage() {
                 companion。
               </p>
             </div>
-
-            <figure className="character-placeholder character-right">
-              <div className="character-meta">
-                <span>{characterSlots[1].id}</span>
-                <p>{characterSlots[1].role}</p>
-              </div>
-              <img
-                className="character-img"
-                src="/female.png"
-                alt={characterSlots[1].alt}
-              />
-              <figcaption>
-                <strong>{characterSlots[1].role}</strong>
-                <p>{characterSlots[1].mood}</p>
-              </figcaption>
-            </figure>
           </div>
 
-          <div className="hero-detail">
+          <div className="hero-detail" style={heroLayout.detail}>
             <div className="audience-list" aria-label="想定シーン">
               {audienceSignals.map((signal) => (
                 <div key={signal} className="audience-row">
@@ -187,7 +232,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="value-band">
+      <section className="value-band" style={sectionLayouts.value}>
         <div className="section-heading">
           <p className="eyebrow">WHAT STAYS WITH YOU</p>
           <h2>やさしいだけでは終わらない。少し鋭くて、返したくなる相手。</h2>
@@ -211,7 +256,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="trust-band">
+      <section className="trust-band" style={sectionLayouts.trust}>
         <div className="section-heading">
           <p className="eyebrow">WHY THIS CONVERTS</p>
           <h2>
@@ -233,7 +278,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="scene-panel" id="scenes">
+      <section className="scene-panel" id="scenes" style={sectionLayouts.scene}>
         <div className="section-heading">
           <p className="eyebrow">SCENE REHEARSAL</p>
           <h2>
@@ -281,7 +326,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="closing-band">
+      <section className="closing-band" style={sectionLayouts.closing}>
         <div className="closing-copy">
           <p className="eyebrow">VOICE DESIGN</p>
           <h2>あたたかさが先。観察は短く。説明しすぎず、景色だけ変える。</h2>
