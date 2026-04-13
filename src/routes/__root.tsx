@@ -12,11 +12,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1877879370424797');
+fbq('init', '920048097524740');
 fbq('track', 'PageView');`
 
 const metaPixelNoscriptSrc =
-  "https://www.facebook.com/tr?id=1877879370424797&ev=PageView&noscript=1"
+  "https://www.facebook.com/tr?id=920048097524740&ev=PageView&noscript=1"
 
 export const Route = createRootRoute({
   head: () => ({
