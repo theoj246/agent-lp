@@ -169,7 +169,12 @@ function LandingVitalsReporter() {
 }
 
 function LandingPage() {
-  const [lineUrl, setLineUrl] = useState(miniAppUrl)
+  const [lineUrl, setLineUrl] = useState(() =>
+    buildLineConversionUrl(miniAppUrl, {
+      anonymousDistinctId: null,
+      sessionId: null,
+    })
+  )
 
   useEffect(() => {
     if (!isPostHogConfigured) {
