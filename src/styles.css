@@ -116,6 +116,10 @@
     display: block;
     max-width: 100%;
   }
+
+  picture {
+    display: block;
+  }
 }
 
 @layer components {
@@ -142,9 +146,7 @@
       18% 12%,
       82% 16%;
     background-repeat: no-repeat;
-    background-size:
-      auto,
-      auto;
+    background-size: auto, auto;
   }
 
   .lp-background-media {
@@ -834,11 +836,19 @@
   }
 
   .plan-card:nth-child(odd) .plan-card-media::after {
-    background: linear-gradient(to bottom, transparent, rgba(255, 248, 240, 0.65));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 248, 240, 0.65)
+    );
   }
 
   .plan-card:nth-child(even) .plan-card-media::after {
-    background: linear-gradient(to bottom, transparent, rgba(244, 250, 247, 0.65));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(244, 250, 247, 0.65)
+    );
   }
 
   .plan-image {
@@ -867,7 +877,11 @@
         rgba(183, 129, 112, 0.1),
         transparent 50%
       ),
-      linear-gradient(180deg, rgba(255, 250, 244, 0.98), rgba(245, 236, 226, 0.95));
+      linear-gradient(
+        180deg,
+        rgba(255, 250, 244, 0.98),
+        rgba(245, 236, 226, 0.95)
+      );
   }
 
   .plan-card:nth-child(even) .plan-copy {
@@ -877,7 +891,11 @@
         rgba(142, 183, 175, 0.12),
         transparent 50%
       ),
-      linear-gradient(180deg, rgba(249, 252, 250, 0.98), rgba(236, 245, 241, 0.95));
+      linear-gradient(
+        180deg,
+        rgba(249, 252, 250, 0.98),
+        rgba(236, 245, 241, 0.95)
+      );
   }
 
   .plan-header {
@@ -1025,13 +1043,14 @@
     bottom: 0;
     z-index: 20;
     width: min(calc(100% - 1rem), var(--lp-shell-width, 430px));
-    padding:
-      0.75rem
-      1rem
-      calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.92) 24%),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.92) 24%
+      ),
       rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(14px);
   }
@@ -1284,7 +1303,6 @@
   .alt-right .alt-situation {
     right: 0.9rem;
   }
-
 }
 
 @layer utilities {
