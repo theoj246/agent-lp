@@ -1,96 +1,7 @@
 import type { CSSProperties } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import {
-  ArrowRight,
-  Check,
-  HeartHandshake,
-  MessageCircleMore,
-  Orbit,
-  Sparkles,
-  Stars,
-} from "lucide-react"
+import { Image } from "@unpic/react"
 
-const conversationCuts = [
-  {
-    label: "温度を読む",
-    text: "嫌われたというより、向こうも距離を測ってる段階かも。",
-  },
-  {
-    label: "一言でほどく",
-    text: "重くしないまま近づくなら、今日の空気に合わせた返し方がある。",
-  },
-  {
-    label: "次の一手",
-    text: "軽め / ちょうどいい / 少し攻める。3つの温度で出し分けられる。",
-  },
-]
-
-const modes = [
-  {
-    title: "恋バナ整理",
-    copy: "何が起きたかより、どんな空気だったかを言葉にする。",
-    icon: HeartHandshake,
-  },
-  {
-    title: "返信ドラフト",
-    copy: "同じ内容でも、近さの違う 3 パターンまでその場で整える。",
-    icon: MessageCircleMore,
-  },
-  {
-    title: "脈読み補助",
-    copy: "脈あり / なしで切らず、曖昧さの段階として読み解く。",
-    icon: Orbit,
-  },
-]
-
-const sceneSteps = [
-  "気まずさや温度差を、やわらかく受け止める",
-  "関係の力学を短く名づけて、見え方を変える",
-  "今すぐ返せる一手を、会話の温度別に差し出す",
-]
-
-const audienceSignals = [
-  "返信するか迷って、トーク画面を閉じたり開いたりしている",
-  "仕事や友人関係まで含めて、いまの空気をうまく言葉にできない",
-  "脈あり / なしの二択では片付かない曖昧さに引っかかっている",
-  "恋愛も生活もまとめて話したいけど、説教もテンプレ励ましもいらない",
-]
-
-const trustSignals = [
-  "恋愛と人間関係の空気を読むことに特化",
-  "entertainment-first でも safety boundaries は維持",
-  "距離を煽らず、現実の関係を前に進める設計",
-]
-
-const characterSlots = [
-  {
-    id: "01",
-    role: "Female Character",
-    mood: "静かな鋭さと、先に安心を置くタイプ",
-    alt: "女性キャラクター画像を後から挿入するためのプレースホルダー",
-    src: "/male.png",
-    className: "character-left",
-    layout: {
-      "--hero-figure-top": "-18%",
-      "--hero-figure-width": "42%",
-      "--hero-figure-image-shift-y": "-4%",
-      "--hero-figure-shift-x": "-9%",
-    } as CSSProperties,
-  },
-  {
-    id: "02",
-    role: "Male Character",
-    mood: "落ち着いた観察で、距離感を整えるタイプ",
-    alt: "男性キャラクター画像を後から挿入するためのプレースホルダー",
-    src: "/female.png",
-    className: "character-right",
-    layout: {
-      "--hero-figure-top": "-18%",
-      "--hero-figure-width": "42%",
-      "--hero-figure-image-shift-y": "-4%",
-    } as CSSProperties,
-  },
-]
 
 const sectionLayouts = {
   shell: {
@@ -98,39 +9,23 @@ const sectionLayouts = {
   } as CSSProperties,
   hero: {
     "--section-pad-top": "0rem",
-    "--section-pad-bottom": "2rem",
-  } as CSSProperties,
-  value: {
-    "--section-pad-top": "4.5rem",
-    "--section-pad-bottom": "4rem",
-  } as CSSProperties,
-  trust: {
-    "--section-pad-top": "4.5rem",
-    "--section-pad-bottom": "4rem",
-  } as CSSProperties,
-  scene: {
-    "--section-pad-top": "4.5rem",
-    "--section-pad-bottom": "4rem",
-  } as CSSProperties,
-  closing: {
-    "--section-pad-top": "4.5rem",
-    "--section-pad-bottom": "min(14vh, 7rem)",
+    "--section-pad-bottom": "5rem",
   } as CSSProperties,
 } as const
 
 const heroLayout = {
   stage: {
-    "--hero-stage-min-height": "128vw",
+    "--hero-stage-min-height": "128cqw",
   } as CSSProperties,
   copy: {
     "--hero-copy-width": "100%",
     "--hero-copy-max-width": "100%",
     "--hero-copy-shift-x": "0%",
-    "--hero-copy-shift-y": "18%",
+    "--hero-copy-shift-y": "11%",
   } as CSSProperties,
   detail: {
     "--hero-detail-gap": "1.35rem",
-    "--hero-detail-shift-y": "0rem",
+    "--hero-detail-shift-y": "4.75rem",
   } as CSSProperties,
 } as const
 
@@ -139,31 +34,19 @@ export const Route = createFileRoute("/")({ component: LandingPage })
 function LandingPage() {
   return (
     <main className="lp-shell" style={sectionLayouts.shell}>
+      <div className="lp-background-media" aria-hidden="true">
+        <Image
+          className="lp-background-image"
+          src="/background.png"
+          alt=""
+          width={860}
+          height={1720}
+        />
+      </div>
+
       <section className="hero-panel" style={sectionLayouts.hero}>
         <div className="hero-grid">
           <div className="hero-stage" id="characters" style={heroLayout.stage}>
-            {characterSlots.map((character) => (
-              <figure
-                key={character.id}
-                className={`character-placeholder hero-figure ${character.className}`}
-                style={character.layout}
-              >
-              <div className="character-meta">
-                  <span>{character.id}</span>
-                  <p>{character.role}</p>
-              </div>
-              <img
-                className="character-img"
-                  src={character.src}
-                  alt={character.alt}
-              />
-              <figcaption>
-                  <strong>{character.role}</strong>
-                  <p>{character.mood}</p>
-              </figcaption>
-              </figure>
-            ))}
-
             <div className="hero-copy" style={heroLayout.copy}>
               <div
                 className="hero-vertical-title"
@@ -180,178 +63,197 @@ function LandingPage() {
                   レイさん。
                 </div>
               </div>
-              <p className="hero-lead">
-                恋愛の温度差も、友人関係の気まずさも、仕事帰りのもやつきも。
-                レイさんは、毎日の空気をやわらかく言葉にして、次のひと言まで整える
-                companion。
-              </p>
             </div>
           </div>
 
           <div className="hero-detail" style={heroLayout.detail}>
-            <div className="audience-list" aria-label="想定シーン">
-              {audienceSignals.map((signal) => (
-                <div key={signal} className="audience-row">
-                  <Check className="size-4" />
-                  <p>{signal}</p>
+            <p className="hero-strap">
+              あなたのことを
+              <span className="hero-strap-emphasis">本気</span>
+              で考えてくれる、
+              <br />
+              <span className="hero-strap-name">レイさん</span>
+              に話してみよう。
+            </p>
+            <div className="alt-strip" id="selling-points">
+              <div className="alt-card alt-left">
+                <Image
+                  className="alt-img"
+                  src="/1.png"
+                  alt="悩みを抱えた女性のイメージ"
+                  width={1200}
+                  height={800}
+                />
+                <p className="alt-situation">「なんか最近、毎日が同じことの繰り返しな気がして」</p>
+              </div>
+
+              <div className="alt-card alt-right">
+                <Image
+                  className="alt-img"
+                  src="/2.png"
+                  alt="人間関係に悩む女性のイメージ"
+                  width={1200}
+                  height={800}
+                />
+                <p className="alt-situation">「グループの中でちょっと浮いてる気がしてきた」</p>
+              </div>
+
+              <div className="alt-card alt-left">
+                <Image
+                  className="alt-img"
+                  src="/3.png"
+                  alt="恋愛の進め方に迷う女性のイメージ"
+                  width={1200}
+                  height={800}
+                />
+                <p className="alt-situation">「好きな人がいるんだけど、どう進めたらいいかわからない」</p>
+              </div>
+
+              <div className="alt-card alt-right">
+                <Image
+                  className="alt-img"
+                  src="/4.png"
+                  alt="将来への不安を抱える女性のイメージ"
+                  width={1200}
+                  height={800}
+                />
+                <p className="alt-situation">「このままでいいのかな、って最近ぼんやり考えてる」</p>
+              </div>
+
+              <div className="alt-card alt-left">
+                <Image
+                  className="alt-img"
+                  src="/5.png"
+                  alt="パートナーとのすれ違いに悩む女性のイメージ"
+                  width={1200}
+                  height={800}
+                />
+                <p className="alt-situation">「最近、パートナーと話が噛み合わない気がしてて」</p>
+              </div>
+            </div>
+
+            <div className="section-heading closing-heading">
+              <h2>
+                そんな時に、
+                <br />
+                <span className="hero-strap-emphasis">じっくり</span>
+                考えてみてもらおう
+              </h2>
+            </div>
+
+            <section className="faq-section" aria-labelledby="faq-heading">
+              <div className="section-heading faq-heading">
+                <h2 id="faq-heading">よくあるご質問</h2>
+              </div>
+
+              <div className="faq-list">
+                <details className="faq-item">
+                  <summary>レイさんは誰ですか？</summary>
+                  <p>
+                    レイさんは人間関係や恋愛、日常に関しての相談に時間をかけてじっくりと考えてくれるAIサポータです
+                  </p>
+                </details>
+
+                <details className="faq-item">
+                  <summary>無料で話しかけてもらえますか？</summary>
+                  <p>はい、無料ではじめられます</p>
+                </details>
+
+                <details className="faq-item">
+                  <summary>秘密にできますか？</summary>
+                  <p>はい、会話の内容はご自身以外は閲覧できません</p>
+                </details>
+              </div>
+            </section>
+
+            <section className="plan-section" aria-labelledby="plan-heading">
+              <div className="section-heading plan-heading">
+                <h2 id="plan-heading">さらにレイさんと楽しむ</h2>
+              </div>
+
+              <div className="plan-list">
+                  <article className="plan-card">
+                    <div className="plan-card-media">
+                      <Image
+                        className="plan-image"
+                        src="/p1.png"
+                        alt=""
+                        aria-hidden="true"
+                        width={320}
+                        height={420}
+                      />
+                    </div>
+                    <div className="plan-copy">
+                      <div className="plan-header">
+                        <h3>レイさんの平日</h3>
+                        <p className="plan-price">
+                          ¥980<span className="plan-price-period">/月</span>
+                        </p>
+                      </div>
+                      <div className="plan-divider" />
+                      <ul className="plan-features">
+                        <li>より多く話せる</li>
+                      </ul>
+                    </div>
+                  </article>
+
+                  <article className="plan-card">
+                    <div className="plan-card-media">
+                      <Image
+                        className="plan-image"
+                        src="/p2.png"
+                        alt=""
+                        aria-hidden="true"
+                        width={320}
+                        height={420}
+                      />
+                    </div>
+                    <div className="plan-copy">
+                      <div className="plan-header">
+                        <h3>レイさんの週末</h3>
+                        <p className="plan-price">
+                          ¥1,980<span className="plan-price-period">/月</span>
+                        </p>
+                      </div>
+                      <div className="plan-divider" />
+                      <ul className="plan-features">
+                        <li>よりしっかり考え、深く会話できる</li>
+                        <li>毎週、週末の様子を、写真付きで届けてくれる（5月から予定）</li>
+                      </ul>
+                    </div>
+                  </article>
                 </div>
-              ))}
-            </div>
-
-            <div className="hero-actions">
-              <a href="#characters" className="lp-button lp-button-primary">
-                キャラクターを見る
-                <ArrowRight className="size-4" />
-              </a>
-              <a href="#scenes" className="lp-button lp-button-secondary">
-                会話体験をみる
-              </a>
-            </div>
-
-            <div className="conversation-strip" aria-label="会話の印象例">
-              {conversationCuts.map((item, index) => (
-                <article
-                  key={item.label}
-                  className="conversation-cut"
-                  style={{ animationDelay: `${index * 140}ms` }}
-                >
-                  <span>{item.label}</span>
-                  <p>{item.text}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="stage-caption">
-              <span>ART DIRECTION</span>
-              <p>
-                Hyperrealism anime portraits will be placed here later. The
-                layout already reserves equal visual weight for both leads.
-              </p>
-            </div>
+            </section>
           </div>
         </div>
       </section>
 
-      <section className="value-band" style={sectionLayouts.value}>
-        <div className="section-heading">
-          <p className="eyebrow">WHAT STAYS WITH YOU</p>
-          <h2>やさしいだけでは終わらない。少し鋭くて、返したくなる相手。</h2>
-        </div>
-        <div className="mode-grid">
-          {modes.map((mode, index) => {
-            const Icon = mode.icon
+      <div className="sticky-footer">
+        <a
+          className="line-cta"
+          href="https://line.me/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Image
+            className="line-cta-icon"
+            src="/line.png"
+            alt=""
+            aria-hidden="true"
+            width={64}
+            height={64}
+          />
+          LINEで話しかけてもらう
+        </a>
+      </div>
 
-            return (
-              <article
-                key={mode.title}
-                className="mode-item"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <Icon className="size-5" />
-                <h3>{mode.title}</h3>
-                <p>{mode.copy}</p>
-              </article>
-            )
-          })}
+      <footer className="page-footer">
+        <div className="footer-links">
+          <a href="/privacy">プライバシーポリシー</a>
+          <a href="/terms">利用規約</a>
         </div>
-      </section>
-
-      <section className="trust-band" style={sectionLayouts.trust}>
-        <div className="section-heading">
-          <p className="eyebrow">WHY THIS CONVERTS</p>
-          <h2>
-            欲しいのは分析ではなく、今の関係に合う言葉。だから first screen で
-            job を見せる。
-          </h2>
-        </div>
-        <div className="trust-list">
-          {trustSignals.map((signal, index) => (
-            <div
-              key={signal}
-              className="trust-row"
-              style={{ animationDelay: `${index * 120}ms` }}
-            >
-              <span>{`0${index + 1}`}</span>
-              <p>{signal}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="scene-panel" id="scenes" style={sectionLayouts.scene}>
-        <div className="section-heading">
-          <p className="eyebrow">SCENE REHEARSAL</p>
-          <h2>
-            感情を受け止めて終わらせない。空気を読んで、次の一手まで連れていく。
-          </h2>
-        </div>
-
-        <div className="scene-layout">
-          <div className="scene-script">
-            <div className="script-line">
-              <span>you</span>
-              <p>既読はつくのに、向こうから話を広げてこないんだよね。</p>
-            </div>
-            <div className="script-line active">
-              <span>rei</span>
-              <p>
-                無視というより、会話を終わらせたいわけでも再開したいわけでもない
-                曖昧さが残ってる感じかも。
-              </p>
-            </div>
-            <div className="script-options">
-              <div>
-                <small>軽め</small>
-                <p>「それ聞いてちょっと笑った、今日こんなことあったよ」</p>
-              </div>
-              <div>
-                <small>ちょうどいい</small>
-                <p>「最近ばたばたしてた？落ち着いたらまた話そ」</p>
-              </div>
-              <div>
-                <small>少し攻める</small>
-                <p>「また普通に話したいから、タイミング合うとき教えて」</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="scene-steps">
-            {sceneSteps.map((step, index) => (
-              <div key={step} className="step-row">
-                <span>{`0${index + 1}`}</span>
-                <p>{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="closing-band" style={sectionLayouts.closing}>
-        <div className="closing-copy">
-          <p className="eyebrow">VOICE DESIGN</p>
-          <h2>あたたかさが先。観察は短く。説明しすぎず、景色だけ変える。</h2>
-          <p>
-            恋愛、曖昧な距離感、友人関係、SNS の温度差。 serious
-            に倒しすぎず、それでも安全境界は崩さない companion のための landing
-            page。
-          </p>
-        </div>
-
-        <div className="closing-points">
-          <div>
-            <Sparkles className="size-4" />
-            <p>返したくなる会話</p>
-          </div>
-          <div>
-            <Stars className="size-4" />
-            <p>温度差の naming</p>
-          </div>
-          <div>
-            <HeartHandshake className="size-4" />
-            <p>現実の関係を弱めない closeness</p>
-          </div>
-        </div>
-      </section>
+        <p>©レイさん | AI相談</p>
+      </footer>
     </main>
   )
 }
