@@ -1,5 +1,6 @@
 export const POSTHOG_DISTINCT_ID_QUERY_PARAM = "ph_distinct_id"
 export const POSTHOG_SESSION_ID_QUERY_PARAM = "ph_session_id"
+export const LINE_CONVERSION_PATH = "/convertion"
 
 export interface ForwardedPostHogIdentity {
   readonly anonymousDistinctId: string | null
@@ -26,6 +27,14 @@ export const buildLineConversionUrl = (
 ) => {
   try {
     const target = new URL(baseUrl)
+    const normalizedPath = target.pathname.replace(/\/+$/, "")
+
+    if (!normalizedPath.endsWith(LINE_CONVERSION_PATH)) {
+      target.pathname = `${normalizedPath}${LINE_CONVERSION_PATH}`.replace(
+        /\/{2,}/g,
+        "/"
+      )
+    }
 
     if (anonymousDistinctId) {
       target.searchParams.set(
