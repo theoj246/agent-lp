@@ -1,7 +1,12 @@
-import type { CSSProperties } from "react"
+import type { ComponentPropsWithoutRef, CSSProperties } from "react"
+import { useEffect } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { Image } from "@unpic/react"
-
+import {
+  landingHeroImage,
+  planImages,
+  sellingPointImages,
+  type ResponsiveImageAsset,
+} from "@/lib/landing-images"
 
 const sectionLayouts = {
   shell: {
@@ -29,18 +34,142 @@ const heroLayout = {
   } as CSSProperties,
 } as const
 
-export const Route = createFileRoute("/")({ component: LandingPage })
+const sellingPoints = [
+  {
+    image: sellingPointImages.one,
+    side: "left",
+    alt: "悩みを抱えた女性のイメージ",
+    copy: "「なんか最近、毎日が同じことの繰り返しな気がして」",
+  },
+  {
+    image: sellingPointImages.two,
+    side: "right",
+    alt: "人間関係に悩む女性のイメージ",
+    copy: "「グループの中でちょっと浮いてる気がしてきた」",
+  },
+  {
+    image: sellingPointImages.three,
+    side: "left",
+    alt: "恋愛の進め方に迷う女性のイメージ",
+    copy: "「好きな人がいるんだけど、どう進めたらいいかわからない」",
+  },
+  {
+    image: sellingPointImages.four,
+    side: "right",
+    alt: "将来への不安を抱える女性のイメージ",
+    copy: "「このままでいいのかな、って最近ぼんやり考えてる」",
+  },
+  {
+    image: sellingPointImages.five,
+    side: "left",
+    alt: "パートナーとのすれ違いに悩む女性のイメージ",
+    copy: "「最近、パートナーと話が噛み合わない気がしてて」",
+  },
+] as const
+
+const plans = [
+  {
+    image: planImages.weekday,
+    title: "レイさんの平日",
+    price: "980",
+    features: ["より多く話せる"],
+  },
+  {
+    image: planImages.weekend,
+    title: "レイさんの週末",
+    price: "1,980",
+    features: [
+      "よりしっかり考え、深く会話できる",
+      "毎週、週末の様子を、写真付きで届けてくれる（5月から予定）",
+    ],
+  },
+] as const
+
+export const Route = createFileRoute("/")({
+  component: LandingPage,
+  head: () => ({
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: landingHeroImage.avif.src,
+        type: landingHeroImage.avif.type,
+        imageSrcSet: landingHeroImage.avif.srcSet,
+        imageSizes: landingHeroImage.sizes,
+        fetchPriority: "high",
+      },
+    ],
+  }),
+})
+
+function ResponsivePicture({
+  image,
+  ...imgProps
+}: { image: ResponsiveImageAsset } & Omit<
+  ComponentPropsWithoutRef<"img">,
+  "src" | "srcSet" | "sizes" | "width" | "height"
+>) {
+  return (
+    <picture>
+      <source
+        type={image.avif.type}
+        srcSet={image.avif.srcSet}
+        sizes={image.sizes}
+      />
+      <img
+        {...imgProps}
+        src={image.fallback.src}
+        srcSet={image.fallback.srcSet}
+        sizes={image.sizes}
+        width={image.width}
+        height={image.height}
+      />
+    </picture>
+  )
+}
+
+function LandingVitalsReporter() {
+  useEffect(() => {
+    if (!import.meta.env.DEV && !window.location.search.includes("perf=1")) {
+      return
+    }
+
+    let cancelled = false
+
+    void import("web-vitals").then(({ onLCP }) => {
+      if (cancelled) {
+        return
+      }
+
+      onLCP((metric) => {
+        console.info("[agent-lp] LCP", {
+          value: Math.round(metric.value),
+          rating: metric.rating,
+        })
+      })
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return null
+}
 
 function LandingPage() {
   return (
     <main className="lp-shell" style={sectionLayouts.shell}>
+      <LandingVitalsReporter />
       <div className="lp-background-media" aria-hidden="true">
-        <Image
+        <ResponsivePicture
           className="lp-background-image"
-          src="/background.png"
+          image={landingHeroImage}
           alt=""
-          width={860}
-          height={1720}
+          aria-hidden="true"
+          decoding="async"
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
 
@@ -76,60 +205,21 @@ function LandingPage() {
               に話してみよう。
             </p>
             <div className="alt-strip" id="selling-points">
-              <div className="alt-card alt-left">
-                <Image
-                  className="alt-img"
-                  src="/1.png"
-                  alt="悩みを抱えた女性のイメージ"
-                  width={1200}
-                  height={800}
-                />
-                <p className="alt-situation">「なんか最近、毎日が同じことの繰り返しな気がして」</p>
-              </div>
-
-              <div className="alt-card alt-right">
-                <Image
-                  className="alt-img"
-                  src="/2.png"
-                  alt="人間関係に悩む女性のイメージ"
-                  width={1200}
-                  height={800}
-                />
-                <p className="alt-situation">「グループの中でちょっと浮いてる気がしてきた」</p>
-              </div>
-
-              <div className="alt-card alt-left">
-                <Image
-                  className="alt-img"
-                  src="/3.png"
-                  alt="恋愛の進め方に迷う女性のイメージ"
-                  width={1200}
-                  height={800}
-                />
-                <p className="alt-situation">「好きな人がいるんだけど、どう進めたらいいかわからない」</p>
-              </div>
-
-              <div className="alt-card alt-right">
-                <Image
-                  className="alt-img"
-                  src="/4.png"
-                  alt="将来への不安を抱える女性のイメージ"
-                  width={1200}
-                  height={800}
-                />
-                <p className="alt-situation">「このままでいいのかな、って最近ぼんやり考えてる」</p>
-              </div>
-
-              <div className="alt-card alt-left">
-                <Image
-                  className="alt-img"
-                  src="/5.png"
-                  alt="パートナーとのすれ違いに悩む女性のイメージ"
-                  width={1200}
-                  height={800}
-                />
-                <p className="alt-situation">「最近、パートナーと話が噛み合わない気がしてて」</p>
-              </div>
+              {sellingPoints.map((sellingPoint) => (
+                <div
+                  key={sellingPoint.copy}
+                  className={`alt-card alt-${sellingPoint.side}`}
+                >
+                  <ResponsivePicture
+                    className="alt-img"
+                    image={sellingPoint.image}
+                    alt={sellingPoint.alt}
+                    decoding="async"
+                    loading="lazy"
+                  />
+                  <p className="alt-situation">{sellingPoint.copy}</p>
+                </div>
+              ))}
             </div>
 
             <div className="section-heading closing-heading">
@@ -172,57 +262,36 @@ function LandingPage() {
               </div>
 
               <div className="plan-list">
-                  <article className="plan-card">
+                {plans.map((plan) => (
+                  <article key={plan.title} className="plan-card">
                     <div className="plan-card-media">
-                      <Image
+                      <ResponsivePicture
                         className="plan-image"
-                        src="/p1.png"
+                        image={plan.image}
                         alt=""
                         aria-hidden="true"
-                        width={320}
-                        height={420}
+                        decoding="async"
+                        loading="lazy"
                       />
                     </div>
                     <div className="plan-copy">
                       <div className="plan-header">
-                        <h3>レイさんの平日</h3>
+                        <h3>{plan.title}</h3>
                         <p className="plan-price">
-                          ¥980<span className="plan-price-period">/月</span>
+                          ¥{plan.price}
+                          <span className="plan-price-period">/月</span>
                         </p>
                       </div>
                       <div className="plan-divider" />
                       <ul className="plan-features">
-                        <li>より多く話せる</li>
+                        {plan.features.map((feature) => (
+                          <li key={feature}>{feature}</li>
+                        ))}
                       </ul>
                     </div>
                   </article>
-
-                  <article className="plan-card">
-                    <div className="plan-card-media">
-                      <Image
-                        className="plan-image"
-                        src="/p2.png"
-                        alt=""
-                        aria-hidden="true"
-                        width={320}
-                        height={420}
-                      />
-                    </div>
-                    <div className="plan-copy">
-                      <div className="plan-header">
-                        <h3>レイさんの週末</h3>
-                        <p className="plan-price">
-                          ¥1,980<span className="plan-price-period">/月</span>
-                        </p>
-                      </div>
-                      <div className="plan-divider" />
-                      <ul className="plan-features">
-                        <li>よりしっかり考え、深く会話できる</li>
-                        <li>毎週、週末の様子を、写真付きで届けてくれる（5月から予定）</li>
-                      </ul>
-                    </div>
-                  </article>
-                </div>
+                ))}
+              </div>
             </section>
           </div>
         </div>
@@ -235,13 +304,13 @@ function LandingPage() {
           target="_blank"
           rel="noreferrer"
         >
-          <Image
+          <img
             className="line-cta-icon"
             src="/line.png"
             alt=""
             aria-hidden="true"
-            width={64}
-            height={64}
+            decoding="async"
+            fetchPriority="low"
           />
           LINEで話しかけてもらう
         </a>
