@@ -1,12 +1,17 @@
 import type { ComponentPropsWithoutRef, CSSProperties } from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
+import posthog from "posthog-js"
 import {
   landingHeroImage,
   planImages,
   sellingPointImages,
   type ResponsiveImageAsset,
 } from "@/lib/landing-images"
+import {
+  buildLineConversionUrl,
+  readPostHogIdentity,
+} from "@/lib/line-conversion"
 
 const sectionLayouts = {
   shell: {
@@ -85,7 +90,11 @@ const plans = [
   },
 ] as const
 
-const lineUrl = import.meta.env.VITE_LINE_URL || "https://line.me/"
+const miniAppUrl = import.meta.env.VITE_MINI_APP_URL || "https://line.me/"
+const isPostHogConfigured = Boolean(
+  import.meta.env.VITE_POSTHOG_PROJECT_TOKEN &&
+  import.meta.env.VITE_POSTHOG_HOST
+)
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -160,6 +169,16 @@ function LandingVitalsReporter() {
 }
 
 function LandingPage() {
+  const [lineUrl, setLineUrl] = useState(miniAppUrl)
+
+  useEffect(() => {
+    if (!isPostHogConfigured) {
+      return
+    }
+
+    setLineUrl(buildLineConversionUrl(miniAppUrl, readPostHogIdentity(posthog)))
+  }, [])
+
   return (
     <main className="lp-shell" style={sectionLayouts.shell}>
       <LandingVitalsReporter />
@@ -300,7 +319,7 @@ function LandingPage() {
       </section>
 
       <div className="sticky-footer">
-        <a className="line-cta" href={lineUrl} target="_blank" rel="noreferrer">
+        <a className="line-cta" href={lineUrl}>
           <img
             className="line-cta-icon"
             src="/line.png"
