@@ -85,6 +85,8 @@ const plans = [
   },
 ] as const
 
+const lineUrl = import.meta.env.VITE_LINE_URL || "https://line.me/"
+
 export const Route = createFileRoute("/")({
   component: LandingPage,
   head: () => ({
@@ -298,12 +300,7 @@ function LandingPage() {
       </section>
 
       <div className="sticky-footer">
-        <a
-          className="line-cta"
-          href="https://line.me/"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a className="line-cta" href={lineUrl} target="_blank" rel="noreferrer">
           <img
             className="line-cta-icon"
             src="/line.png"
