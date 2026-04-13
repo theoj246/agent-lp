@@ -169,7 +169,12 @@ function LandingVitalsReporter() {
 }
 
 function LandingPage() {
-  const [lineUrl, setLineUrl] = useState(miniAppUrl)
+  const [lineUrl, setLineUrl] = useState(() =>
+    buildLineConversionUrl(miniAppUrl, {
+      anonymousDistinctId: null,
+      sessionId: null,
+    })
+  )
 
   useEffect(() => {
     if (!isPostHogConfigured) {
@@ -299,7 +304,8 @@ function LandingPage() {
                       <div className="plan-header">
                         <h3>{plan.title}</h3>
                         <p className="plan-price">
-                          ¥{plan.price}
+                          <span className="plan-currency">¥</span>
+                          {plan.price}
                           <span className="plan-price-period">/月</span>
                         </p>
                       </div>

@@ -929,6 +929,10 @@
     white-space: nowrap;
   }
 
+  .plan-currency {
+    font-size: 0.72em;
+  }
+
   .plan-price-period {
     font-size: 0.65rem;
     font-weight: 600;
