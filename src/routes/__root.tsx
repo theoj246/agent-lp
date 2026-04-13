@@ -1,5 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 
+import { PostHogProvider } from "@/providers/posthog"
+
 import appCss from "../styles.css?url"
 
 export const Route = createRootRoute({
@@ -13,7 +15,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "レイ | Relationship Companion",
+        title: "レイさん",
       },
       {
         name: "description",
@@ -38,7 +40,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
         <Scripts />
       </body>
     </html>
