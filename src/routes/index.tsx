@@ -342,6 +342,7 @@ function LandingPage() {
         <div className="footer-links">
           <a href="/privacy">プライバシーポリシー</a>
           <a href="/terms">利用規約</a>
+          <a href="/legal">特定商取引法に基づく表記</a>
         </div>
         <p>©レイさん | AI相談</p>
       </footer>

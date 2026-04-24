@@ -1126,6 +1126,98 @@
     text-underline-offset: 0.16em;
   }
 
+  .legal-shell {
+    width: min(100%, 430px);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 1.3rem 1rem 3rem;
+    background:
+      linear-gradient(180deg, rgba(255, 250, 244, 0.94), #f6f0e6 38%),
+      radial-gradient(
+        circle at 18% 10%,
+        rgba(142, 183, 175, 0.14),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 85% 8%,
+        rgba(183, 129, 112, 0.12),
+        transparent 24%
+      );
+  }
+
+  .legal-back-link {
+    display: inline-flex;
+    margin-bottom: 2.2rem;
+    color: rgba(63, 48, 42, 0.68);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .legal-header {
+    display: grid;
+    gap: 0.55rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .legal-header p,
+  .legal-footer p {
+    margin: 0;
+    color: #5f8d85;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .legal-header h1 {
+    margin: 0;
+    color: #241916;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 8cqw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.22;
+    text-wrap: balance;
+  }
+
+  .legal-table-wrap {
+    overflow: hidden;
+    border-top: 1px solid rgba(78, 56, 48, 0.16);
+  }
+
+  .legal-disclosure-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .legal-disclosure-table th,
+  .legal-disclosure-table td {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(78, 56, 48, 0.16);
+    vertical-align: top;
+  }
+
+  .legal-disclosure-table th {
+    width: 34%;
+    padding-right: 0.85rem;
+    color: rgba(47, 36, 31, 0.72);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .legal-disclosure-table td {
+    color: #2f241f;
+    font-size: 0.94rem;
+    line-height: 1.78;
+  }
+
+  .legal-footer {
+    margin-top: 1.4rem;
+  }
+
   .trust-list {
     display: grid;
     gap: 0.8rem;
