@@ -52,17 +52,17 @@ const steps = [
 
 const plans = [
   {
-    name: "友達プラン",
+    name: "友達",
     price: "永遠に無料",
     copy: "まずはレイさんと友達になるところから。",
   },
   {
-    name: "平日プラン",
+    name: "応援",
     price: "980",
     copy: "毎日の気持ちを、少しずつ話していきたい方へ。",
   },
   {
-    name: "週末プラン",
+    name: "推し",
     price: "1,980",
     copy: "長く深く話しながら、レイさんとの関係を育てたい方へ。",
   },
@@ -136,12 +136,13 @@ function LandingPage() {
       <section className="rei-hero" aria-labelledby="hero-heading">
         <div className="rei-brandbar">
           <span>レイさん</span>
-          <small>LINEで話せるAI相談相手</small>
+          <small>LINEで話せるAI友達</small>
         </div>
 
         <div className="rei-hero-art">
           <img
             src={heroArt430}
+            i
             srcSet={heroArtSrcSet}
             sizes="(max-width: 430px) 100vw, 430px"
             width="430"

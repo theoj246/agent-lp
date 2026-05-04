@@ -3373,3 +3373,58 @@
     line-height: 1.72;
   }
 }
+
+@layer components {
+  .rei-hero {
+    display: block;
+    gap: 0 !important;
+    padding: 0 !important;
+    padding-inline: 0 !important;
+    background: transparent !important;
+  }
+
+  .rei-hero-art {
+    line-height: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .rei-hero-art img {
+    display: block;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .rei-hero-copy {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 7.4rem;
+    margin: 0;
+    padding: 0 1.45rem;
+  }
+
+  .rei-closing-copy {
+    display: flex;
+    min-height: 9.4rem;
+    margin: -32.65rem 1.45rem 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.35rem;
+  }
+
+  .rei-closing-copy .rei-kicker,
+  .rei-closing-copy h2 {
+    margin: 0;
+  }
+
+  .rei-closing-copy h2 {
+    line-height: 1.58;
+  }
+
+  .rei-page .page-footer {
+    margin-top: 2.75rem;
+  }
+}
