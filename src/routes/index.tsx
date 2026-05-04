@@ -1,100 +1,72 @@
-import type { ComponentPropsWithoutRef, CSSProperties } from "react"
 import { useEffect, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import posthog from "posthog-js"
-import {
-  landingHeroImage,
-  planImages,
-  sellingPointImages,
-  type ResponsiveImageAsset,
-} from "@/lib/landing-images"
+import chatPanel430 from "../assets/rei-line/chat-panel-430.webp"
+import chatPanel860 from "../assets/rei-line/chat-panel-860.webp"
+import ctaPanel430 from "../assets/rei-line/cta-panel-430.webp"
+import ctaPanel860 from "../assets/rei-line/cta-panel-860.webp"
+import heroArt430 from "../assets/rei-line/hero-430.webp"
+import heroArt860 from "../assets/rei-line/hero-860.webp"
+import lineupArt430 from "../assets/rei-line/lineup-panel-430.webp"
+import lineupArt860 from "../assets/rei-line/lineup-panel-860.webp"
 import {
   buildLineConversionUrl,
   readPostHogIdentity,
 } from "@/lib/line-conversion"
-
-const sectionLayouts = {
-  shell: {
-    "--lp-shell-width": "430px",
-  } as CSSProperties,
-  hero: {
-    "--section-pad-top": "0rem",
-    "--section-pad-bottom": "5rem",
-  } as CSSProperties,
-} as const
-
-const heroLayout = {
-  stage: {
-    "--hero-stage-min-height": "128cqw",
-  } as CSSProperties,
-  copy: {
-    "--hero-copy-width": "100%",
-    "--hero-copy-max-width": "100%",
-    "--hero-copy-shift-x": "0%",
-    "--hero-copy-shift-y": "11%",
-  } as CSSProperties,
-  detail: {
-    "--hero-detail-gap": "1.35rem",
-    "--hero-detail-shift-y": "4.75rem",
-  } as CSSProperties,
-} as const
-
-const sellingPoints = [
-  {
-    image: sellingPointImages.one,
-    side: "left",
-    alt: "悩みを抱えた女性のイメージ",
-    copy: "「なんか最近、毎日が同じことの繰り返しな気がして」",
-  },
-  {
-    image: sellingPointImages.two,
-    side: "right",
-    alt: "人間関係に悩む女性のイメージ",
-    copy: "「グループの中でちょっと浮いてる気がしてきた」",
-  },
-  {
-    image: sellingPointImages.three,
-    side: "left",
-    alt: "恋愛の進め方に迷う女性のイメージ",
-    copy: "「好きな人がいるんだけど、どう進めたらいいかわからない」",
-  },
-  {
-    image: sellingPointImages.four,
-    side: "right",
-    alt: "将来への不安を抱える女性のイメージ",
-    copy: "「このままでいいのかな、って最近ぼんやり考えてる」",
-  },
-  {
-    image: sellingPointImages.five,
-    side: "left",
-    alt: "パートナーとのすれ違いに悩む女性のイメージ",
-    copy: "「最近、パートナーと話が噛み合わない気がしてて」",
-  },
-] as const
-
-const plans = [
-  {
-    image: planImages.weekday,
-    title: "レイさんの平日",
-    price: "980",
-    features: ["より多く話せる"],
-  },
-  {
-    image: planImages.weekend,
-    title: "レイさんの週末",
-    price: "1,980",
-    features: [
-      "よりしっかり考え、深く会話できる",
-      "毎週、週末の様子を、写真付きで届けてくれる（5月から予定）",
-    ],
-  },
-] as const
 
 const miniAppUrl = import.meta.env.VITE_MINI_APP_URL || "https://line.me/"
 const isPostHogConfigured = Boolean(
   import.meta.env.VITE_POSTHOG_PROJECT_TOKEN &&
   import.meta.env.VITE_POSTHOG_HOST
 )
+
+const heroArtSrcSet = [`${heroArt430} 430w`, `${heroArt860} 860w`].join(", ")
+const chatPanelSrcSet = [`${chatPanel430} 430w`, `${chatPanel860} 860w`].join(
+  ", "
+)
+const lineupArtSrcSet = [`${lineupArt430} 430w`, `${lineupArt860} 860w`].join(
+  ", "
+)
+const ctaPanelSrcSet = [`${ctaPanel430} 430w`, `${ctaPanel860} 860w`].join(", ")
+
+const topics = [
+  {
+    title: "気持ちを置きたい夜",
+    copy: "まとまっていない言葉でも大丈夫。レイさんがゆっくり受け止めます。",
+  },
+  {
+    title: "誰かとの関係に迷う時",
+    copy: "相手のことも、あなたの気持ちも、急がず一緒に考えます。",
+  },
+  {
+    title: "ひとりで抱えたくない時",
+    copy: "毎日の会話の中で、少しずつあなたを知って支えます。",
+  },
+] as const
+
+const steps = [
+  "いまの気持ちをそのまま送る",
+  "レイさんが深く考えて返す",
+  "会話を重ねて関係を育てる",
+] as const
+
+const plans = [
+  {
+    name: "友達",
+    price: "永遠に無料",
+    copy: "まずはレイさんと友達になるところから。",
+  },
+  {
+    name: "応援",
+    price: "980",
+    copy: "毎日の気持ちを、少しずつ話していきたい方へ。",
+  },
+  {
+    name: "推し",
+    price: "1,980",
+    copy: "長く深く話しながら、レイさんとの関係を育てたい方へ。",
+  },
+] as const
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -103,41 +75,14 @@ export const Route = createFileRoute("/")({
       {
         rel: "preload",
         as: "image",
-        href: landingHeroImage.avif.src,
-        type: landingHeroImage.avif.type,
-        imageSrcSet: landingHeroImage.avif.srcSet,
-        imageSizes: landingHeroImage.sizes,
+        href: heroArt430,
+        imageSrcSet: heroArtSrcSet,
+        imageSizes: "(max-width: 430px) 100vw, 430px",
         fetchPriority: "high",
       },
     ],
   }),
 })
-
-function ResponsivePicture({
-  image,
-  ...imgProps
-}: { image: ResponsiveImageAsset } & Omit<
-  ComponentPropsWithoutRef<"img">,
-  "src" | "srcSet" | "sizes" | "width" | "height"
->) {
-  return (
-    <picture>
-      <source
-        type={image.avif.type}
-        srcSet={image.avif.srcSet}
-        sizes={image.sizes}
-      />
-      <img
-        {...imgProps}
-        src={image.fallback.src}
-        srcSet={image.fallback.srcSet}
-        sizes={image.sizes}
-        width={image.width}
-        height={image.height}
-      />
-    </picture>
-  )
-}
 
 function LandingVitalsReporter() {
   useEffect(() => {
@@ -185,142 +130,153 @@ function LandingPage() {
   }, [])
 
   return (
-    <main className="lp-shell" style={sectionLayouts.shell}>
+    <main className="rei-page">
       <LandingVitalsReporter />
-      <div className="lp-background-media" aria-hidden="true">
-        <ResponsivePicture
-          className="lp-background-image"
-          image={landingHeroImage}
+
+      <section className="rei-hero" aria-labelledby="hero-heading">
+        <div className="rei-brandbar">
+          <span>レイさん</span>
+          <small>LINEで話せるAI友達</small>
+        </div>
+
+        <div className="rei-hero-art">
+          <img
+            src={heroArt430}
+            i
+            srcSet={heroArtSrcSet}
+            sizes="(max-width: 430px) 100vw, 430px"
+            width="430"
+            height="760"
+            alt="赤い手芸風の背景にレイさんがいるイメージ"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
+
+        <div className="rei-hero-copy">
+          <h1 id="hero-heading">
+            恋のことも、
+            <br />
+            人間関係のことも。
+            <br />
+            レイさんと話そう
+          </h1>
+        </div>
+      </section>
+
+      <section className="rei-intro" aria-label="サービス紹介">
+        <p>
+          あなたの気持ちに、いつも本気で向き合うレイさんへ。
+          LINEでつながるたび、言葉にならない想いも少しずつ届いていく。
+          わたしたちの会話は、いつもあなたのそばに。
+        </p>
+      </section>
+
+      <section className="rei-topic-section" aria-labelledby="topic-heading">
+        <p className="rei-kicker">Talk about</p>
+        <h2 id="topic-heading">こんな時に、話しましょう</h2>
+        <img
+          className="rei-lineup-art"
+          src={lineupArt430}
+          srcSet={lineupArtSrcSet}
+          sizes="(max-width: 430px) calc(100vw - 2rem), 398px"
+          width="430"
+          height="716"
           alt=""
           aria-hidden="true"
+          loading="lazy"
           decoding="async"
-          fetchPriority="high"
-          loading="eager"
         />
-      </div>
+        <div className="rei-topic-list">
+          {topics.map((topic, index) => (
+            <article className="rei-topic" key={topic.title}>
+              <span>{index + 1}</span>
+              <h3>{topic.title}</h3>
+              <p>{topic.copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <section className="hero-panel" style={sectionLayouts.hero}>
-        <div className="hero-grid">
-          <div className="hero-stage" id="characters" style={heroLayout.stage}>
-            <div className="hero-copy" style={heroLayout.copy}>
-              <div
-                className="hero-vertical-title"
-                role="heading"
-                aria-level={1}
-              >
-                <div className="hero-vertical-line hero-vertical-line-right">
-                  今日のこと
-                </div>
-                <div className="hero-vertical-line hero-vertical-line-middle">
-                  なんかうまくいかなかった、
-                </div>
-                <div className="hero-vertical-line hero-vertical-line-left hero-name-emphasis">
-                  レイさん。
-                </div>
-              </div>
-            </div>
-          </div>
+      <section className="rei-flow" aria-labelledby="flow-heading">
+        <p className="rei-kicker">How it works</p>
+        <h2 id="flow-heading">話すほど、レイさんが近づいてくる。</h2>
+        <img
+          className="rei-chat-art"
+          src={chatPanel430}
+          srcSet={chatPanelSrcSet}
+          sizes="(max-width: 430px) calc(100vw - 2rem), 398px"
+          width="430"
+          height="716"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+        <ol>
+          {steps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </section>
 
-          <div className="hero-detail" style={heroLayout.detail}>
-            <p className="hero-strap">
-              あなたのことを
-              <span className="hero-strap-emphasis">本気</span>
-              で考えてくれる、
-              <br />
-              <span className="hero-strap-name">レイさん</span>
-              に話してみよう。
-            </p>
-            <div className="alt-strip" id="selling-points">
-              {sellingPoints.map((sellingPoint) => (
-                <div
-                  key={sellingPoint.copy}
-                  className={`alt-card alt-${sellingPoint.side}`}
-                >
-                  <ResponsivePicture
-                    className="alt-img"
-                    image={sellingPoint.image}
-                    alt={sellingPoint.alt}
-                    decoding="async"
-                    loading="lazy"
-                  />
-                  <p className="alt-situation">{sellingPoint.copy}</p>
-                </div>
-              ))}
-            </div>
+      <section className="rei-closing" aria-labelledby="closing-heading">
+        <img
+          className="rei-cta-art"
+          src={ctaPanel430}
+          srcSet={ctaPanelSrcSet}
+          sizes="(max-width: 430px) 100vw, 430px"
+          width="430"
+          height="716"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="rei-closing-copy">
+          <p className="rei-kicker">LINE message</p>
+          <h2 id="closing-heading">
+            レイさんは、会話を覚えて近づいていく。
+            <br />
+            その日だけの答えではなく、次の会話も一緒に。
+          </h2>
+        </div>
+      </section>
 
-            <div className="section-heading closing-heading">
-              <h2>
-                そんな時に、
-                <br />
-                <span className="hero-strap-emphasis">じっくり</span>
-                考えてみてもらおう
-              </h2>
-            </div>
+      <section className="rei-faq" aria-labelledby="faq-heading">
+        <p className="rei-kicker">FAQ</p>
+        <h2 id="faq-heading">よくあるご質問</h2>
+        <details>
+          <summary>レイさんは誰ですか？</summary>
+          <p>
+            恋愛や人間関係、日常の気持ちを深く考えながら寄り添うAIサポーターです。
+          </p>
+        </details>
+        <details>
+          <summary>無料ではじめられますか？</summary>
+          <p>はい。LINEから無料ではじめられます。</p>
+        </details>
+        <details>
+          <summary>相談内容は秘密にできますか？</summary>
+          <p>はい。会話の内容はご自身以外は閲覧できません。</p>
+        </details>
+      </section>
 
-            <section className="faq-section" aria-labelledby="faq-heading">
-              <div className="section-heading faq-heading">
-                <h2 id="faq-heading">よくあるご質問</h2>
-              </div>
-
-              <div className="faq-list">
-                <details className="faq-item">
-                  <summary>レイさんは誰ですか？</summary>
-                  <p>
-                    レイさんは人間関係や恋愛、日常に関しての相談に時間をかけてじっくりと考えてくれるAIサポータです
-                  </p>
-                </details>
-
-                <details className="faq-item">
-                  <summary>無料で話しかけてもらえますか？</summary>
-                  <p>はい、無料ではじめられます</p>
-                </details>
-
-                <details className="faq-item">
-                  <summary>秘密にできますか？</summary>
-                  <p>はい、会話の内容はご自身以外は閲覧できません</p>
-                </details>
-              </div>
-            </section>
-
-            <section className="plan-section" aria-labelledby="plan-heading">
-              <div className="section-heading plan-heading">
-                <h2 id="plan-heading">さらにレイさんと楽しむ</h2>
-              </div>
-
-              <div className="plan-list">
-                {plans.map((plan) => (
-                  <article key={plan.title} className="plan-card">
-                    <div className="plan-card-media">
-                      <ResponsivePicture
-                        className="plan-image"
-                        image={plan.image}
-                        alt=""
-                        aria-hidden="true"
-                        decoding="async"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="plan-copy">
-                      <div className="plan-header">
-                        <h3>{plan.title}</h3>
-                        <p className="plan-price">
-                          <span className="plan-currency">¥</span>
-                          {plan.price}
-                          <span className="plan-price-period">/月</span>
-                        </p>
-                      </div>
-                      <div className="plan-divider" />
-                      <ul className="plan-features">
-                        {plan.features.map((feature) => (
-                          <li key={feature}>{feature}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </div>
+      <section className="rei-plan-section" aria-labelledby="plan-heading">
+        <p className="rei-kicker">Plans</p>
+        <h2 id="plan-heading">もっと話したい日のために。</h2>
+        <div className="rei-plan-list">
+          {plans.map((plan) => (
+            <article className="rei-plan" key={plan.name}>
+              <h3>{plan.name}</h3>
+              <p>{plan.copy}</p>
+              <strong>
+                {plan.price === "永遠に無料" ? null : <span>¥</span>}
+                {plan.price}
+                {plan.price === "永遠に無料" ? null : <small>/月</small>}
+              </strong>
+            </article>
+          ))}
         </div>
       </section>
 

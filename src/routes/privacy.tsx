@@ -26,42 +26,42 @@ const purposes = [
 ] as const
 
 const modules = [
-  {
-    name: "LINEヤフー株式会社",
-    href: "https://line.me/ja/terms/policy/",
-    items: [
-      "送信される項目: LINEユーザー識別子、LINEプロフィール情報、LINE上での認証に必要な情報",
-      "利用目的: LINEログイン、ユーザー識別、メッセージ送受信、LINEミニアプリ機能の提供のため",
-      "送信される仕組み: LINEログイン、LIFF、Messaging API等を通じた連携",
-    ],
-  },
-  {
-    name: "PostHog",
-    href: "https://posthog.com/privacy",
-    items: [
-      "送信される項目: Cookie、端末情報、ブラウザ情報、閲覧ページ、操作イベント、識別子等",
-      "利用目的: 本サービスの利用状況分析、改善、広告効果測定のため",
-      "送信される仕組み: PostHog JavaScript SDKを通じた連携",
-    ],
-  },
-  {
-    name: "Autumn",
-    href: "https://useautumn.com/",
-    items: [
-      "送信される項目: ユーザー識別子、有料プラン、決済状態、請求管理に必要な情報",
-      "利用目的: サブスクリプションの申込、変更、解約、請求管理のため",
-      "送信される仕組み: Autumn APIを通じた連携",
-    ],
-  },
-  {
-    name: "Anthropic",
-    href: "https://www.anthropic.com/legal/privacy",
-    items: [
-      "送信される項目: ユーザーが本サービスに入力した文章、会話に必要な文脈情報等",
-      "利用目的: AIによる応答生成、本サービスの提供、品質維持のため",
-      "送信される仕組み: Anthropic APIを通じた連携",
-    ],
-  },
+  // {
+  //   name: "LINEヤフー株式会社",
+  //   href: "https://line.me/ja/terms/policy/",
+  //   items: [
+  //     "送信される項目: LINEユーザー識別子、LINEプロフィール情報、LINE上での認証に必要な情報",
+  //     "利用目的: LINEログイン、ユーザー識別、メッセージ送受信、LINEミニアプリ機能の提供のため",
+  //     "送信される仕組み: LINEログイン、LIFF、Messaging API等を通じた連携",
+  //   ],
+  // },
+  // {
+  //   name: "PostHog",
+  //   href: "https://posthog.com/privacy",
+  //   items: [
+  //     "送信される項目: Cookie、端末情報、ブラウザ情報、閲覧ページ、操作イベント、識別子等",
+  //     "利用目的: 本サービスの利用状況分析、改善、広告効果測定のため",
+  //     "送信される仕組み: PostHog JavaScript SDKを通じた連携",
+  //   ],
+  // },
+  // {
+  //   name: "Autumn",
+  //   href: "https://useautumn.com/",
+  //   items: [
+  //     "送信される項目: ユーザー識別子、有料プラン、決済状態、請求管理に必要な情報",
+  //     "利用目的: サブスクリプションの申込、変更、解約、請求管理のため",
+  //     "送信される仕組み: Autumn APIを通じた連携",
+  //   ],
+  // },
+  // {
+  //   name: "Anthropic",
+  //   href: "https://www.anthropic.com/legal/privacy",
+  //   items: [
+  //     "送信される項目: ユーザーが本サービスに入力した文章、会話に必要な文脈情報等",
+  //     "利用目的: AIによる応答生成、本サービスの提供、品質維持のため",
+  //     "送信される仕組み: Anthropic APIを通じた連携",
+  //   ],
+  // },
 ] as const
 
 export const Route = createFileRoute("/privacy")({
