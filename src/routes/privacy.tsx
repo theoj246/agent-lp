@@ -25,7 +25,13 @@ const purposes = [
   "取得情報を統計的に処理したうえで、個人を識別できない形式で利用または公表するため",
 ] as const
 
-const modules = [
+type ExternalModule = {
+  name: string
+  href: string
+  items: readonly string[]
+}
+
+const modules: readonly ExternalModule[] = [
   // {
   //   name: "LINEヤフー株式会社",
   //   href: "https://line.me/ja/terms/policy/",
