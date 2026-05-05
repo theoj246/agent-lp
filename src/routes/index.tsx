@@ -142,7 +142,6 @@ function LandingPage() {
         <div className="rei-hero-art">
           <img
             src={heroArt430}
-            i
             srcSet={heroArtSrcSet}
             sizes="(max-width: 430px) 100vw, 430px"
             width="430"
